@@ -30,5 +30,7 @@ test {
 }
 
 jacocoTestReport {
+testStatistique
 	dependsOn test // tests are required to run before generating the report
-}
+
+
