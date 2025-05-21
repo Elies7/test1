@@ -49,16 +49,12 @@ class WebTests {
                 .andExpect(status().isOk());
     }
 
-	@Test
-	public void getStatistiques() throws Exception {
-		doNothing().when(statistiqueImpl).ajouter(new Voiture("Ferrari", 5000));
-		when(statistiqueImpl.prixMoyen()).thenReturn(new Echantillon(1, 5000));
-		mockMvc.perform(get("/statistique"))
-			.andDo(print())
-			.andExpect(status().isOk())
-			.andExpect(jsonPath("$.nombreDeVoitures").value("1"))
-			.andExpect(jsonPath("$.prixMoyen").value("5000"))
-			.andReturn();
-	}
-
+    @Test
+    public void testGetStatistiquesWithoutCar() throws Exception {
+        when(statistiqueImpl.prixMoyen()).thenThrow(new ArithmeticException());
+        mockMvc.perform(get("/statistique"))
+                .andDo(print())
+                .andExpect(status().is4xxClientError())
+                .andReturn();
+    }
 }
