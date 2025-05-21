@@ -21,6 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class WebTests {
 
+<<<<<<< HEAD
     @MockBean
     StatistiqueImpl statistiqueImpl;
 
@@ -58,3 +59,40 @@ class WebTests {
                 .andReturn();
     }
 }
+=======
+	@MockBean
+	StatistiqueImpl statistiqueImpl;
+
+	@Autowired
+	MockMvc mockMvc;
+
+	@Test
+	void testZeroVoiture() throws Exception {
+		mockMvc.perform(get("/statistique")
+			.contentType(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	void ajouterVoiture() throws Exception {
+		mockMvc.perform(post("/voiture")
+			.contentType(MediaType.APPLICATION_JSON)
+			.content("{ \"marque\": \"Ferrari\", \"prix\": 5000 }")
+			.accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk());
+	}
+
+	@Test
+	public void getStatistiques() throws Exception {
+		doNothing().when(statistiqueImpl).ajouter(new Voiture("Ferrari", 5000));
+		when(statistiqueImpl.prixMoyen()).thenReturn(new Echantillon(1, 5000));
+		mockMvc.perform(get("/statistique"))
+			.andDo(print())
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$.nombreDeVoitures").value("1"))
+			.andExpect(jsonPath("$.prixMoyen").value("5000"))
+			.andReturn();
+	}
+
+
+>>>>>>> d267448f3d8eaacceffccc11ae73ffc06bf774d7
