@@ -30,11 +30,5 @@ test {
 }
 
 jacocoTestReport {
-testStatistique
 	dependsOn test // tests are required to run before generating the report
-<<<<<<< HEAD
 }
-=======
-
-
->>>>>>> d45c5a34fdcc164837b92b83934c09587abcebb8
