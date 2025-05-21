@@ -57,6 +57,3 @@ class WebTests {
 			.andExpect(jsonPath("$.prixMoyen").value("5000"))
 			.andReturn();
 	}
-
-} 
-//
